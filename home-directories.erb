@@ -1,0 +1,45 @@
+##################################
+#                                #
+#     Create home directories    #
+#                                #
+##################################
+
+<% if app_stage == "dev" %>
+user { "vagrant":
+        ensure => present,
+        gid => "<%= app_user %>",
+        groups => ["<%= app_user %>-homerw","<%= app_group %>"],
+        membership => minimum,
+}
+
+file { "/home/<%= app_user %>":
+        ensure => directory,
+        owner => vagrant,
+        group => vagrant-homerw,
+        mode => 755,
+}
+<% else %>
+user { "<%= app_user %>":
+        ensure => present,
+        gid => "<%= app_group %>",
+        groups => ["www-php-loggers","<%= app_user %>-homerw"],
+        membership => minimum,
+        password => "*", # disable password-based logins entirely
+}
+
+file { "/home/<%= app_user %>":
+        ensure => directory,
+        owner => <%= app_user %>,
+        group => <%= app_user %>-homerw,
+        mode => 770,
+}
+<% end %>
+
+# TODO split out uploads
+file { "/home/<%= app_user %>/uploads.<%= site_domain %>":
+        ensure => directory,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        mode => 775,
+}
+
