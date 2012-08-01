@@ -1,0 +1,28 @@
+package { "php5-fpm":
+        ensure => installed
+}
+
+##################################
+#                                #
+#    Render the PHP-FPM config   #
+#                                #
+##################################
+
+# pool must be after the files it depends on above
+file { "/etc/php5/fpm/pool.d/<%= app_name %>.pool.conf":
+        owner => root,
+        group => root,
+        mode => 644,
+        content => template("<%= erb_path %>/php5-fpm.pool.conf.erb"),
+        #require => Package["php5-fpm"],
+        #notify => Package["php5-fpm"]
+}
+
+
+service { "php5-fpm":
+        ensure => running,
+        #hasrestart => true,
+        subscribe => [File["/etc/php5/fpm/pool.d/<%= app_name %>.pool.conf"],File["/home/<%= app_user %>/php/log"]],
+        require => Package["php5-fpm"]
+}
+

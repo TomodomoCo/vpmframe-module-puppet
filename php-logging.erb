@@ -1,0 +1,34 @@
+##################################
+#                                #
+#       Set up PHP logging       #
+#                                #
+##################################
+
+file { "/home/<%= app_user %>/php":
+        ensure => directory,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        require => Package["php5-fpm"]
+}
+
+file { "/home/<%= app_user %>/php/log":
+        ensure => directory,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        require => Package["php5-fpm"]
+}
+
+file { "/home/<%= app_user %>/php/sessions":
+        ensure => directory,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        require => Package["php5-fpm"]
+}
+
+file { "/home/<%= app_user %>/php/log/<%= app_name %>.access.log":
+        ensure => file,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        require => Package["php5-fpm"]
+}
+
