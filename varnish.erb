@@ -1,0 +1,30 @@
+package { "varnish":
+        ensure => installed
+}
+
+<% if app_stage == "dev" %>
+# varnish config file for :80
+file { "/etc/default/varnish":
+        owner => root,
+        group => root,
+        source => "<%= app_deploy_to %>/current/config/puppet/files/vagrant_etc_default_varnish",
+        require => Package["varnish"]
+}
+
+file { "/etc/varnish/default.vcl":
+        owner => root,
+        group => root,
+        source => "<%= app_deploy_to %>/current/config/puppet/files/vagrant_default.vcl",
+        require => Package["varnish"]
+}
+<% end %>
+
+
+# start varnish
+service { "varnish":
+        ensure => running,
+        require => Package["varnish"],
+        <% if app_stage == "dev" %>
+        subscribe => [File["/etc/default/varnish"],File["/etc/varnish/default.vcl"]],
+        <% end %>
+}
