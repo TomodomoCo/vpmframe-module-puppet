@@ -1,3 +1,12 @@
+file { "/home/<%= app_user %>/bin/uploads_to_s3.py":
+        ensure => file,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        mode => 775, # keep it executable!
+        source => "<%= app_deploy_to %>/current/config/scripts/uploads_to_s3.py",
+}
+
+
 cron_job { "<%= app_name %>_uploads_to_s3":
 
         interval        => "d", # use cron.d folder for user-specific execution
