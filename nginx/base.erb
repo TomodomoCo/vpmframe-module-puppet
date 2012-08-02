@@ -40,32 +40,6 @@ file { "/etc/nginx/sites-enabled/<%= app_name %>-<%= app_stage %>":
 
 
 
-<% if app_stage == "staging" %>
-# TODO why is this here? should it be !dev?
-file { "/etc/nginx/sites-available/<%= app_name %>/uploads":
-        owner => root,
-        group => root,
-        mode  => 644,
-        content => template("<%= erb_path %>/nginx/uploads.erb"),
-        require => Package["nginx"],
-        notify => Service["nginx"]
-}
-
-##################################
-#                                #
-#   uploads.<%= app_domain %>    #
-#                                #
-##################################
-
-# TODO modularise this out further
-file { "/etc/nginx/sites-enabled/<%= app_name %>-uploads":
-        ensure => symlink,
-        target => "/etc/nginx/sites-available/<%= app_name %>/uploads",
-        require => Package["nginx"],
-        notify => Service["nginx"]
-}
-<% end %>
-
 file { "/etc/nginx/sites-enabled/default":
         ensure => absent,
         #require => Package["nginx"],
