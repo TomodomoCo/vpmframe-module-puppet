@@ -35,6 +35,15 @@ file { "/home/<%= app_user %>":
 }
 <% end %>
 
+# bin directory
+file { "/home/<%= app_user %>/bin":
+        ensure => directory,
+        owner => <%= app_user %>,
+        group => <%= app_group %>,
+        mode => 775,
+}
+
+
 # TODO split out uploads
 file { "/home/<%= app_user %>/uploads.<%= site_domain %>":
         ensure => directory,

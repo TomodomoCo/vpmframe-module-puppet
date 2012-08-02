@@ -1,0 +1,35 @@
+##################################
+#                                #
+#          Create groups         #
+#                                #
+##################################
+
+group { "<%= app_user %>-homerw":
+        ensure => present,
+}
+
+group { "<%= app_group %>":
+        ensure => present,
+}
+
+
+##################################
+#                                #
+#          Create users          #
+#                                #
+##################################
+
+user { "www-data":
+        ensure => present,
+        groups => ["<%= app_user %>-homerw"],
+        membership => minimum,
+}
+
+<% app_access_users.each do |access_user| %>
+user { "<%= access_user %>":
+        ensure => present,
+        groups => ["<%= app_user %>-homerw","<%= app_group %>"],
+        membership => minimum,
+}
+<% end %>
+
