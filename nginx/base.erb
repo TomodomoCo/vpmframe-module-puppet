@@ -56,5 +56,6 @@ service { "nginx":
         ensure => running,
         #hasrestart => true,
         require => Package["nginx"]
+	restart => "/usr/sbin/nginx -t && /usr/sbin/service nginx reload"
 }
 
