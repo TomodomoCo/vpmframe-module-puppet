@@ -7,14 +7,14 @@ package { "varnish":
 file { "/etc/default/varnish":
         owner => root,
         group => root,
-		source => "<%= erb_path %>/varnish/vagrant_etc_default_varnish",
+		source => "<%= erb_path %>/varnish/modules/vagrant_etc_default_varnish",
         require => Package["varnish"]
 }
 
 file { "/etc/varnish/default.vcl":
         owner => root,
         group => root,
-        source => "<%= erb_path %>/varnish/vagrant_default.vcl",
+        source => "<%= erb_path %>/varnish/modules/vagrant_default.vcl",
         require => Package["varnish"]
 }
 <% end %>
