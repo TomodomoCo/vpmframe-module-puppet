@@ -11,29 +11,28 @@ user { "vagrant":
         groups => ["<%= app_user %>-homerw","<%= app_group %>"],
         membership => minimum,
 }
-
-file { "/home/<%= app_user %>":
-        ensure => directory,
-        owner => vagrant,
-        group => vagrant-homerw,
-        mode => 755,
-}
-<% else %>
-user { "<%= app_user %>":
-        ensure => present,
-        gid => "<%= app_group %>",
-        groups => ["www-php-loggers","<%= app_user %>-homerw"],
-        membership => minimum,
-        password => "*", # disable password-based logins entirely
-}
-
-file { "/home/<%= app_user %>":
-        ensure => directory,
-        owner => <%= app_user %>,
-        group => <%= app_user %>-homerw,
-        mode => 770,
-}
 <% end %>
+
+user { "<%= app_user %>":
+	ensure => present,
+	gid => "<%= app_group %>",
+	groups => ["www-php-loggers","<%= app_user %>-homerw"],
+	membership => minimum,
+	<% if app_stage != "dev" %>
+	password => "*", # disable password-based logins entirely
+	<% end %>
+}
+
+file { "/home/<%= app_user %>":
+	ensure => directory,
+	owner => <%= app_user %>,
+	group => <%= app_user %>-homerw,
+	<% if app_stage == "dev" %>
+	mode => 755,
+	<% else %>
+	mode => 770,
+	<% end %>
+}
 
 # bin directory
 file { "/home/<%= app_user %>/bin":
@@ -43,7 +42,6 @@ file { "/home/<%= app_user %>/bin":
         mode => 775,
 }
 
-
 # TODO split out uploads
 file { "/home/<%= app_user %>/uploads.<%= site_domain %>":
         ensure => directory,
@@ -51,4 +49,3 @@ file { "/home/<%= app_user %>/uploads.<%= site_domain %>":
         group => <%= app_group %>,
         mode => 775,
 }
-

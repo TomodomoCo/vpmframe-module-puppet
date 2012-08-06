@@ -25,12 +25,6 @@ user { "www-data":
 	membership => minimum,
 }
 
-user { "deploy":
-	ensure => present,
-	groups => ["<%= app_user %>-homerw"],
-	membership => minimum,
-}
-
 <% app_access_users.each do |access_user| %>
 user { "<%= access_user %>":
 	ensure => present,
