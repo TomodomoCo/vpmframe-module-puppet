@@ -8,20 +8,18 @@
 user { "vagrant":
         ensure => present,
         gid => "<%= app_user %>",
-        groups => ["<%= app_user %>-homerw","<%= app_group %>"],
+        groups => ["<%= app_user %>-homerw","<%= app_group %>", "www-php-loggers"],
         membership => minimum,
 }
-<% end %>
-
+<% else %>
 user { "<%= app_user %>":
 	ensure => present,
 	gid => "<%= app_group %>",
 	groups => ["www-php-loggers","<%= app_user %>-homerw"],
 	membership => minimum,
-	<% if app_stage != "dev" %>
 	password => "*", # disable password-based logins entirely
-	<% end %>
 }
+<% end %>
 
 file { "/home/<%= app_user %>":
 	ensure => directory,
