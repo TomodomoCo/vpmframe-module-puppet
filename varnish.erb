@@ -49,14 +49,14 @@ file { "/etc/varnish/sites/<%= app_name %>/recv.vcl":
 	ensure => file,
 	owner => root,
 	group => root,
-	content => template("<%= erb_path %>/varnish/recv.vcl"),
+	content => template("<%= erb_path %>/varnish/recv.vcl.erb"),
 }
 
 file { "/etc/varnish/sites/<%= app_name %>/fetch.vcl":
         ensure => file,
         owner => root,
         group => root,
-        content => template("<%= erb_path %>/varnish/fetch.vcl"),
+        content => template("<%= erb_path %>/varnish/fetch.vcl.erb"),
 }
 
 # now enable those VCLs in the sites-*.vcl files
