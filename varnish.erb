@@ -63,13 +63,13 @@ file { "/etc/varnish/sites/<%= app_name %>/fetch.vcl":
 vcl_rules { "<%= app_name %>-recv":
 	app_name => "<%= app_name %>",
 	procedure => "recv",
-	notify => "varnish"
+	notify => Service["varnish"]
 }
 
 vcl_rules { "<%= app_name %>-fetch":
 	app_name => "<%= app_name %>",
 	procedure => "fetch",
-	notify => "varnish"
+	notify => Service["varnish"]
 }
 
 # start varnish
