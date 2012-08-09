@@ -8,7 +8,7 @@ define vcl_rules( $app_name, $procedure, $enabled = true ) {
         exec { "create-${name}-vcl-rules":
                 unless => "/bin/grep 'include \"/etc/varnish/sites/${app_name}/${procedure}.vcl\"' /etc/varnish/sites/sites-${procedure}.vcl", 
                 command => "/bin/echo 'include \"/etc/varnish/sites/${app_name}/${procedure}.vcl\"' | /usr/bin/tee -a /etc/varnish/sites/sites-${procedure}.vcl",
-		shell => true, 
+		provider => shell,
         }
 }
 
