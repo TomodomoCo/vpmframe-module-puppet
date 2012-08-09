@@ -26,9 +26,11 @@ user { "www-data":
 }
 
 <% app_access_users.each do |access_user| %>
+<% if access_user != "vagrant" %>
 user { "<%= access_user %>":
 	ensure => present,
 	groups => ["<%= app_user %>-homerw","<%= app_group %>"],
 	membership => minimum,
 }
+<% end %>
 <% end %>
