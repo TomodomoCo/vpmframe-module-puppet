@@ -19,6 +19,56 @@ file { "/etc/varnish/default.vcl":
 }
 <% end %>
 
+# prerequisite directories and files for Varnish modular configuration
+file { "/etc/varnish/sites":
+	ensure => directory,
+	owner => root,
+	group => root
+}
+
+file { "/etc/varnish/sites/sites-recv.vcl":
+	ensure => present,
+	owner => root,
+	group => root
+}
+
+file { "/etc/varnish/sites/sites-fetch.vcl":
+	ensure => present,
+	owner => root,
+	group => root
+}
+
+file { "/etc/varnish/sites/<%= app_name %>": 
+	ensure => directory,
+	owner => root,
+	group => root
+}
+
+# drop in this site's varnish configurations
+file { "/etc/varnish/sites/<%= app_name %>/recv.vcl":
+	ensure => file,
+	owner => root,
+	group => root,
+	content => template("<%= erb_path %>/varnish/recv.vcl"),
+}
+
+file { "/etc/varnish/sites/<%= app_name %>/fetch.vcl":
+        ensure => file,
+        owner => root,
+        group => root,
+        content => template("<%= erb_path %>/varnish/fetch.vcl"),
+}
+
+# now enable those VCLs in the sites-*.vcl files
+vcl_rules { "<%= app_name %>-recv":
+	app_name => "<%= app_name %>",
+	procedure => "recv"	
+}
+
+vcl_rules { "<%= app_name %>-fetch":
+	app_name => "<%= app_name %>",
+	procedure => "fetch"
+}
 
 # start varnish
 service { "varnish":
