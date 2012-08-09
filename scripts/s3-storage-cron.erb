@@ -3,7 +3,7 @@ file { "/home/<%= app_user %>/bin/uploads_to_s3.py":
         owner => <%= app_user %>,
         group => <%= app_group %>,
         mode => 775, # keep it executable!
-        source => "<%= erb_path %>/scripts/modules/uploads_to_s3.py",
+        source => "<%= config_path %>/scripts/modules/uploads_to_s3.py",
 }
 
 

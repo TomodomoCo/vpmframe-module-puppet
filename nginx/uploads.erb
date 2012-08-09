@@ -4,7 +4,7 @@ file { "/etc/nginx/sites-available/<%= app_name %>/uploads":
         owner => root,
         group => root,
         mode  => 644,
-        content => template("<%= erb_path %>/nginx/uploads.erb"),
+        content => template("<%= config_path %>/nginx/uploads.erb"),
         require => Package["nginx"],
         notify => Service["nginx"]
 }

@@ -13,7 +13,7 @@ file { "/etc/php5/fpm/pool.d/<%= app_name %>.pool.conf":
         owner => root,
         group => root,
         mode => 644,
-        content => template("<%= erb_path %>/php/php5-fpm.pool.conf.erb"),
+        content => template("<%= config_path %>/php/php5-fpm.pool.conf.erb"),
         #require => Package["php5-fpm"],
         #notify => Package["php5-fpm"]
 }

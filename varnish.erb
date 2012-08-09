@@ -7,7 +7,7 @@ package { "varnish":
 file { "/etc/default/varnish":
         owner => root,
         group => root,
-		source => "<%= erb_path %>/varnish/modules/vagrant_etc_default_varnish",
+		source => "<%= config_path %>/varnish/modules/vagrant_etc_default_varnish",
         require => Package["varnish"]
 }
 <% end %>
@@ -15,7 +15,7 @@ file { "/etc/default/varnish":
 file { "/etc/varnish/default.vcl":
         owner => root,
         group => root,
-        source => "<%= erb_path %>/varnish/modules/global/default.vcl",
+        source => "<%= config_path %>/varnish/modules/global/default.vcl",
         require => Package["varnish"]
 }
 
@@ -49,14 +49,14 @@ file { "/etc/varnish/sites/<%= app_name %>/recv.vcl":
 	ensure => file,
 	owner => root,
 	group => root,
-	content => template("<%= erb_path %>/varnish/recv.vcl.erb"),
+	content => template("<%= config_path %>/varnish/recv.vcl.erb"),
 }
 
 file { "/etc/varnish/sites/<%= app_name %>/fetch.vcl":
         ensure => file,
         owner => root,
         group => root,
-        content => template("<%= erb_path %>/varnish/fetch.vcl.erb"),
+        content => template("<%= config_path %>/varnish/fetch.vcl.erb"),
 }
 
 # now enable those VCLs in the sites-*.vcl files

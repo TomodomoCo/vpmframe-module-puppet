@@ -26,7 +26,7 @@ file { "/etc/nginx/sites-available/<%= app_name %>/<%= app_stage %>":
         owner => root,
         group => root,
         mode  => 644,
-        content => template("<%= erb_path %>/nginx/default.erb"),
+        content => template("<%= config_path %>/nginx/default.erb"),
         require => Package["nginx"],
         notify => Service["nginx"]
 }
