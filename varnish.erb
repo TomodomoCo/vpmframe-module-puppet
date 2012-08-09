@@ -10,14 +10,14 @@ file { "/etc/default/varnish":
 		source => "<%= erb_path %>/varnish/modules/vagrant_etc_default_varnish",
         require => Package["varnish"]
 }
+<% end %>
 
 file { "/etc/varnish/default.vcl":
         owner => root,
         group => root,
-        source => "<%= erb_path %>/varnish/modules/vagrant_default.vcl",
+        source => "<%= erb_path %>/varnish/modules/global/default.vcl",
         require => Package["varnish"]
 }
-<% end %>
 
 # prerequisite directories and files for Varnish modular configuration
 file { "/etc/varnish/sites":
