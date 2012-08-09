@@ -26,13 +26,13 @@ file { "/etc/varnish/sites":
 	group => root
 }
 
-file { "/etc/varnish/sites/sites-recv.vcl":
+file { "/etc/varnish/sites-recv.vcl":
 	ensure => present,
 	owner => root,
 	group => root
 }
 
-file { "/etc/varnish/sites/sites-fetch.vcl":
+file { "/etc/varnish/sites-fetch.vcl":
 	ensure => present,
 	owner => root,
 	group => root
@@ -62,12 +62,14 @@ file { "/etc/varnish/sites/<%= app_name %>/fetch.vcl":
 # now enable those VCLs in the sites-*.vcl files
 vcl_rules { "<%= app_name %>-recv":
 	app_name => "<%= app_name %>",
-	procedure => "recv"	
+	procedure => "recv",
+	notify => "varnish"
 }
 
 vcl_rules { "<%= app_name %>-fetch":
 	app_name => "<%= app_name %>",
-	procedure => "fetch"
+	procedure => "fetch",
+	notify => "varnish"
 }
 
 # start varnish
