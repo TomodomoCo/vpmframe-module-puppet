@@ -26,11 +26,18 @@ user { "www-data":
 }
 
 <% app_access_users.each do |access_user| %>
-<% if access_user != "vagrant" %>
 user { "<%= access_user %>":
 	ensure => present,
+
+	<% if access_user == app_user %>
+	groups => ["www-php-loggers", "<%= app_user %>-homerw", "<%= app_group %>"],
+	gid => "<%= app_group %>",
+	password => "*", # prevent password login entirely
+
+	<% else %>
 	groups => ["<%= app_user %>-homerw","<%= app_group %>"],
+	<% end %>
+
 	membership => minimum,
 }
-<% end %>
 <% end %>

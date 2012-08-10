@@ -11,14 +11,6 @@ user { "vagrant":
         groups => ["<%= app_user %>-homerw","<%= app_group %>", "www-php-loggers"],
         membership => minimum,
 }
-<% else %>
-user { "<%= app_user %>":
-	ensure => present,
-	gid => "<%= app_group %>",
-	groups => ["www-php-loggers","<%= app_user %>-homerw"],
-	membership => minimum,
-	password => "*", # disable password-based logins entirely
-}
 <% end %>
 
 file { "/home/<%= app_user %>":
