@@ -4,15 +4,6 @@
 #                                #
 ##################################
 
-<% if app_stage == "dev" %>
-user { "vagrant":
-        ensure => present,
-        gid => "<%= app_user %>",
-        groups => ["<%= app_user %>-homerw","<%= app_group %>", "www-php-loggers"],
-        membership => minimum,
-}
-<% end %>
-
 file { "/home/<%= app_user %>":
 	ensure => directory,
 	owner => <%= app_user %>,
