@@ -22,7 +22,7 @@ group { "<%= app_group %>":
 <% if app_stage == "dev" %>
 user { "vagrant":
         ensure => present,
-        gid => "<%= app_user %>",
+        gid => "<%= app_group %>",
         groups => ["<%= app_user %>-homerw","<%= app_group %>", "www-php-loggers"],
         membership => minimum,
 }
