@@ -11,7 +11,7 @@ cron_job { "<%= app_name %>_uploads_to_s3":
 
         interval        => "d", # use cron.d folder for user-specific execution
         script          => "# created by Puppet
-MAILTO=\"someone@example.com\"
+MAILTO=\"<%= mailto %>\"
 
 # m              h  dom   mon   dow    user             command
  $random_minute  4  *     *     6      <%= app_user %>  /usr/bin/nice -n 17 /home/<%= app_user %>/bin/uploads_to_s3.py /home/<%= app_user %>/<%= app_domain %>/shared/config/s3.yml /home/<%= app_user %>/uploads.<%= site_domain %>/
