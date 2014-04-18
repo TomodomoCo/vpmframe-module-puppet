@@ -2,22 +2,23 @@ package { "varnish":
         ensure => installed
 }
 
+
 <% if app_stage == "dev" %>
 # varnish config file for :80
 file { "/etc/default/varnish":
         owner => root,
         group => root,
 		source => "<%= config_path %>/varnish/modules/vagrant_etc_default_varnish",
-        require => Package["varnish"]
+        require => Package["varnish"],
 }
-<% end %>
 
 file { "/etc/varnish/default.vcl":
         owner => root,
         group => root,
         source => "<%= config_path %>/varnish/modules/global/default.vcl",
-        require => Package["varnish"]
+        require => Package["varnish"],
 }
+<%= end %>
 
 # prerequisite directories and files for Varnish modular configuration
 file { "/etc/varnish/sites":
